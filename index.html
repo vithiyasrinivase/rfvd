@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RTD Sensor Temperature Display</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #c9e4ff, #e0f7fa);
+      text-align: center;
+      padding-top: 80px;
+      color: #222;
+    }
+
+    h1 {
+      color: #0d47a1;
+      margin-bottom: 10px;
+    }
+
+    .sensor-box {
+      background-color: #ffffff;
+      display: inline-block;
+      padding: 40px 60px;
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .value {
+      font-size: 3em;
+      color: #e63946;
+      margin-top: 20px;
+    }
+
+    button {
+      background-color: #0077b6;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-size: 1em;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #023e8a;
+    }
+  </style>
+</head>
+<body>
+  <h1>RTD Sensor Temperature Monitor</h1>
+  <div class="sensor-box">
+    <p><strong>Real-time Temperature Reading</strong></p>
+    <div id="temperature" class="value">-- °C</div>
+    <button onclick="updateTemperature()">Refresh</button>
+  </div>
+
+  <script>
+    async function updateTemperature() {
+      try {
+        // This URL should return a plain text temperature value (e.g., "25.6")
+        const response = await fetch("/temperature");
+        const temp = await response.text();
+        document.getElementById("temperature").innerText = temp + " °C";
+      } catch (error) {
+        document.getElementById("temperature").innerText = "Error!";
+      }
+    }
+
+    // Auto-refresh every 2 seconds
+    setInterval(updateTemperature, 2000);
+  </script>
+</body>
+</html>
